@@ -32,4 +32,12 @@ public class Node {
             return;
         this.y = y;
     }
+
+    public boolean isMe(int x, int y){
+        return Math.abs(x - this.x) < Const.NODE/2 && Math.abs(y - this.y) < Const.NODE/2;
+    }
+
+    public boolean equals(Node node){
+        return  x == node.x && y == node.y;
+    }
 }
