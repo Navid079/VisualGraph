@@ -40,4 +40,8 @@ public class Node {
     public boolean equals(Node node){
         return  x == node.x && y == node.y;
     }
+
+    public boolean isNearMe(int x, int y) {
+        return Math.abs(x - this.x) < Const.NODE/2 + Const.SPACE && Math.abs(y - this.y) < Const.NODE/2 + Const.SPACE;
+    }
 }
