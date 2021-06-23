@@ -1,5 +1,8 @@
 package DS;
 
+import Control.Const;
+
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Graph {
@@ -44,5 +47,33 @@ public class Graph {
     public void removeEdge(Node from, Node to, int weight){
         Edge edge = getEdge(from, to, weight);
         edges.get(vertices.indexOf(from)).remove(edge);
+    }
+
+    public void render(Graphics g) {
+
+        g.setColor(Color.BLACK);
+
+        for(Node node : vertices){
+            int x = Const.LEFT + node.getX() - Const.NODE/2;
+            int y = node.getY() - Const.NODE/2;
+
+            g.drawRect(x, y, Const.NODE, Const.NODE);
+        }
+    }
+
+    public boolean hasNode(int x, int y){
+        for(Node n : vertices){
+            if(n.isNearMe(x, y))
+                return true;
+        }
+        return false;
+    }
+
+    public boolean hasExactNode(int x, int y) {
+        for(Node n : vertices){
+            if(n.isMe(x, y))
+                return true;
+        }
+        return false;
     }
 }
