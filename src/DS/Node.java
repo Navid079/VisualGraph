@@ -2,6 +2,8 @@ package DS;
 
 import Control.Const;
 
+import java.awt.*;
+
 public class Node {
     //node's coordination on the window.
     // Note that this coordination is exactly on the middle of the node.
@@ -43,5 +45,18 @@ public class Node {
 
     public boolean isNearMe(int x, int y) {
         return Math.abs(x - this.x) < Const.NODE/2 + Const.SPACE && Math.abs(y - this.y) < Const.NODE/2 + Const.SPACE;
+    }
+
+    public boolean isNearMe(int x, int y, int radius) {
+        return Math.abs(x - this.x) < Const.NODE/2 + radius && Math.abs(y - this.y) < Const.NODE/2 + radius;
+    }
+
+    public void render(Graphics g){
+        g.setColor(Color.BLACK);
+
+        int x = Const.LEFT + this.x - Const.NODE/2;
+        int y = this.y - Const.NODE/2;
+
+        g.drawRect(x, y, Const.NODE, Const.NODE);
     }
 }
