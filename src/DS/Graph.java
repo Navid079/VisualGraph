@@ -28,13 +28,13 @@ public class Graph {
         edges.remove(i);
     }
 
-    public void addEdge(Node from, Node to, int weight){
+    public void addEdge(Node from, Node to, int weight, int startX,int startY, int endX, int endY){
         int i = vertices.indexOf(from);
-        edges.get(i).add(new Edge(to, weight));
+        edges.get(i).add(new Edge(to, weight, startX, startY, endX, endY));
     }
 
     public Edge getEdge(Node from, Node to, int weight){
-        Edge instance = new Edge(to, weight);
+        Edge instance = new Edge(to, weight, 0, 0, 0, 0);
         ArrayList<Edge> list = edges.get(vertices.indexOf(from));
         for(Edge edge : list){
             if(edge.equals(instance)){
@@ -50,14 +50,13 @@ public class Graph {
     }
 
     public void render(Graphics g) {
-
-        g.setColor(Color.BLACK);
-
         for(Node node : vertices){
-            int x = Const.LEFT + node.getX() - Const.NODE/2;
-            int y = node.getY() - Const.NODE/2;
+            node.render(g);
+        }
 
-            g.drawRect(x, y, Const.NODE, Const.NODE);
+        for(ArrayList<Edge> list : edges){
+            for(Edge edge : list)
+                edge.render(g);
         }
     }
 

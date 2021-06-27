@@ -8,4 +8,7 @@ public class Const {
     public static final int LEFT = 200;
     public static final int RIGHT = 200;
     public static final int SPACE = 40;
+
+    public static final int ADD_EDGE = 0;
+    public static final int ADD_NODE = 1;
 }
