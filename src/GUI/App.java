@@ -11,18 +11,19 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 
 public class App extends JFrame{
-    private final Graph graph = new Graph();
+    public final Graph graph = new Graph();
     private Node node1;
     private Node node2;
     private final Coordination startC = new Coordination();
     private final Coordination endC = new Coordination();
-    private int type = Const.ADD_NODE;
+    public int type = Const.ADD_NODE;
     private boolean bi = false;
-    private final JPanel panel;
+    public final JPanel panel;
 
     private JButton typeButton;
     private JButton biButton;
     private JTextField wText;
+    private final RightPane rightPane = new RightPane(this);
 
     public App(JPanel panel){
         this.panel = panel;
@@ -31,6 +32,7 @@ public class App extends JFrame{
     public void init() {
         panel.setLayout(null);
         panel.addMouseListener(new MouseInput(this));
+        panel.setBackground(Color.GRAY);
 
         typeButton = new JButton("Add Node");
         JLabel biLabel = new JLabel("Bidirectional mode:");
@@ -52,11 +54,16 @@ public class App extends JFrame{
                 typeButton.setText("Add Edge");
                 biButton.setEnabled(true);
                 wText.setEnabled(true);
-            } else {
-                type = Const.ADD_NODE;
-                typeButton.setText("Add Node");
+            } else if(type == Const.ADD_EDGE) {
+                type = Const.EDIT_NODE;
+                typeButton.setText("Edit Node");
                 biButton.setEnabled(false);
                 wText.setEnabled(false);
+            } else {
+                rightPane.setNode(null);
+                type = Const.ADD_NODE;
+                typeButton.setText("Add Node");
+                render();
             }
         });
 
@@ -113,6 +120,13 @@ public class App extends JFrame{
                         render();
                         System.out.println("added");
                     }
+                } else if(type == Const.EDIT_NODE){
+                    if (e.getX() > Const.RIGHT && e.getX() < Const.RIGHT + Const.WIDTH && graph.hasExactNode(e.getX() - Const.RIGHT, e.getY())) {
+                        Node n = graph.getNode(e.getX() - Const.RIGHT, e.getY());
+                        n.setColor(Color.CYAN);
+                        rightPane.setNode(n);
+                        render();
+                    }
                 }
             } else if (e.getButton() == MouseEvent.BUTTON3) {
                 if(type == Const.ADD_EDGE) {
@@ -161,13 +175,14 @@ public class App extends JFrame{
         }
     }
 
-    private void render() {
+    public void render() {
         Graphics g = panel.getGraphics();
 
         g.setColor(Color.WHITE);
         g.fillRect(Const.LEFT, 0, Const.WIDTH, Const.HEIGHT);
 
         graph.render(g);
+        rightPane.render(g);
     }
 
     @Override

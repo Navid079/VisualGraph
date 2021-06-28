@@ -40,7 +40,7 @@ public class Edge {
         g.fillRect((int) ((start.x + end.x)/2 - w/2), (int) ((start.y+ end.y)/2 - h/2), (int)w, (int)h);
 
         g.setColor(Color.BLACK);
-        g.drawString(String.valueOf(weight), (int) ((start.x + end.x)/2 - w/2), (int) (((start.y+ end.y)/2) + h/2));
+        g.drawString(String.valueOf(weight), (int) ((start.x + end.x)/2 - w/2), (int) (((start.y+ end.y)/2) + h/4));
     }
 
     public Node toWhere(){

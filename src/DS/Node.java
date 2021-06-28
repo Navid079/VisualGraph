@@ -9,10 +9,14 @@ public class Node {
     // Note that this coordination is exactly on the middle of the node.
     private int x;
     private int y;
+    private Color color = Color.BLACK;
+    private Graph graph;
+    private String label = "";
 
-    public Node(int x, int y){
+    public Node(int x, int y, Graph graph){
         this.x = x;
         this.y = y;
+        this.graph = graph;
     }
 
     public int getX() {
@@ -52,11 +56,33 @@ public class Node {
     }
 
     public void render(Graphics g){
-        g.setColor(Color.BLACK);
+        g.setColor(color);
 
         int x = Const.LEFT + this.x - Const.NODE/2;
         int y = this.y - Const.NODE/2;
 
-        g.drawRect(x, y, Const.NODE, Const.NODE);
+        g.fillRect(x, y, Const.NODE, Const.NODE);
+
+        g.getFont().deriveFont(Font.PLAIN, 8);
+
+        double w = g.getFontMetrics().getStringBounds(getLabel(), g).getWidth();
+        double h = g.getFontMetrics().getStringBounds(getLabel(), g).getHeight();
+
+        g.setColor(Color.PINK);
+        g.fillRect((int) (x - w/2), (int) (y - h/2), (int)w, (int)h);
+
+        g.setColor(Color.BLACK);
+        g.drawString(getLabel(), (int) (x - w/2), (int) (y + h/4));
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public String getLabel() {
+        if(label.isEmpty()){
+            return String.valueOf(graph.vertices.indexOf(this));
+        }
+        return label;
     }
 }
