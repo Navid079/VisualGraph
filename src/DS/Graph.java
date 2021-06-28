@@ -6,11 +6,11 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class Graph {
-    private final ArrayList<Node> vertices = new ArrayList<>();
-    private final ArrayList<ArrayList<Edge>> edges = new ArrayList<>();
+    public final ArrayList<Node> vertices = new ArrayList<>();
+    public final ArrayList<ArrayList<Edge>> edges = new ArrayList<>();
 
     public void addNode(int x, int y){
-        vertices.add(new Node(x, y));
+        vertices.add(new Node(x, y, this));
         edges.add(new ArrayList<>());
     }
 
