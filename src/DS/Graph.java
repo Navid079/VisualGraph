@@ -28,13 +28,18 @@ public class Graph {
         edges.remove(i);
     }
 
-    public void addEdge(Node from, Node to, int weight, int startX,int startY, int endX, int endY){
+    public void addEdge(Node from, Node to, int weight, Coordination start, Coordination end, boolean bi){
+
         int i = vertices.indexOf(from);
-        edges.get(i).add(new Edge(to, weight, startX, startY, endX, endY));
+        edges.get(i).add(new Edge(to, weight, new Coordination(start.x, start.y), new Coordination(end.x, end.y), bi));
+        if(bi) {
+            i = vertices.indexOf(to);
+            edges.get(i).add(new Edge(from, weight, new Coordination(end.x, end.y), new Coordination(start.x, start.y), true));
+        }
     }
 
     public Edge getEdge(Node from, Node to, int weight){
-        Edge instance = new Edge(to, weight, 0, 0, 0, 0);
+        Edge instance = new Edge(to, weight, new Coordination(), new Coordination());
         ArrayList<Edge> list = edges.get(vertices.indexOf(from));
         for(Edge edge : list){
             if(edge.equals(instance)){
