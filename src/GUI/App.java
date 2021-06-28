@@ -2,6 +2,7 @@ package GUI;
 
 import Control.Const;
 import Control.MouseInput;
+import DS.Coordination;
 import DS.Graph;
 import DS.Node;
 
@@ -13,11 +14,10 @@ public class App extends JFrame{
     private Graph graph = new Graph();
     private Node node1;
     private Node node2;
-    private int startX = -1;
-    private int startY = -1;
-    private int endX = -1;
-    private int endY = -1;
+    private Coordination startC = new Coordination();
+    private Coordination endC = new Coordination();
     private int type = Const.ADD_NODE;
+    private boolean bi = false;
 
     public void init() {
         getComponent(0).addMouseListener(new MouseInput(this));
@@ -30,8 +30,13 @@ public class App extends JFrame{
                 System.out.println("add node type");
             }
             else if(e.getButton() == MouseEvent.BUTTON3){
-                type = Const.ADD_EDGE;
-                System.out.println("add edge type");
+                if (type == Const.ADD_NODE) {
+                    type = Const.ADD_EDGE;
+                    System.out.println("add edge type");
+                } else {
+                    bi = !bi;
+                    System.out.println("bi changed");
+                }
             }
         }
         if(e.getX() > Const.RIGHT && e.getX() < Const.RIGHT + Const.WIDTH) {
@@ -69,24 +74,25 @@ public class App extends JFrame{
                             System.out.println("Select two nodes first");
                             return;
                         }
-                        if (startX == -1) {
+                        if (startC.x == -1) {
                             if(!node1.isNearMe(e.getX() - Const.RIGHT, e.getY(), 10)){
                                 System.out.println("Not near start node");
                                 return;
                             }
-                            startX = e.getX();
-                            startY = e.getY();
+                            startC.x = e.getX();
+                            startC.y = e.getY();
                             System.out.println("Coordination 1 selected");
-                        } else if (endX == -1) {
+                        } else if (endC.x == -1) {
                             if(!node2.isNearMe(e.getX() - Const.RIGHT, e.getY(), 10)){
                                 System.out.println("Not near end node");
                                 return;
                             }
-                            endX = e.getX();
-                            endY = e.getY();
-                            graph.addEdge(node1, node2, 1, startX, startY, endX, endY);
+                            endC.x = e.getX();
+                            endC.y = e.getY();
+                            graph.addEdge(node1, node2, 1, startC, endC, bi);
                             render();
-                            startX = startY = endX = endY = -1;
+                            startC.reset();
+                            endC.reset();
                             node1 = node2 = null;
                             System.out.println("Edge created");
                         }
