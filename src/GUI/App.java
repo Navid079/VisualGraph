@@ -8,10 +8,8 @@ import DS.Node;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferStrategy;
 
-public class App {
-    private final JFrame frame;
+public class App extends JFrame{
     private Graph graph = new Graph();
     private Node node1;
     private Node node2;
@@ -21,9 +19,8 @@ public class App {
     private int endY = -1;
     private int type = Const.ADD_NODE;
 
-    public App(JFrame frame) {
-        this.frame = frame;
-        frame.getComponent(0).addMouseListener(new MouseInput(this));
+    public void init() {
+        getComponent(0).addMouseListener(new MouseInput(this));
     }
 
     public void mouseClicked(MouseEvent e) {
@@ -106,11 +103,17 @@ public class App {
     }
 
     private void render() {
-        Graphics g = frame.getComponent(0).getGraphics();
+        Graphics g = getComponent(0).getGraphics();
 
         g.setColor(Color.WHITE);
         g.fillRect(Const.LEFT, 0, Const.WIDTH, Const.HEIGHT);
 
         graph.render(g);
+    }
+
+    @Override
+    public void paint(Graphics g){
+        super.paint(g);
+        render();
     }
 }
