@@ -6,9 +6,9 @@ import java.awt.*;
 
 public class Main {
     public static void main(String[] args) {
-        App frame = new App();
-        frame.setTitle("Graph Analysis");
         JPanel panel = new JPanel();
+        App frame = new App(panel);
+        frame.setTitle("Graph Analysis");
         panel.setPreferredSize(new Dimension(Const.LEFT + Const.WIDTH + Const.RIGHT, Const.HEIGHT));
 
         frame.add(panel);
