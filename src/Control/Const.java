@@ -12,4 +12,5 @@ public class Const {
     public static final int ADD_NODE = 0;
     public static final int ADD_EDGE = 1;
     public static final int EDIT_NODE = 2;
+    public static final int ALGORITHM_RUN = 3;
 }

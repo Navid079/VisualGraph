@@ -1,5 +1,6 @@
 package GUI;
 
+import Algorithms.Note;
 import Control.Const;
 import DS.Edge;
 import DS.Node;
@@ -41,6 +42,9 @@ public class RightPane {
                 return;
             ArrayList<Edge> list = app.graph.edges.get(app.graph.vertices.indexOf(node));
             int i = 0;
+
+            g.fillRect(Const.LEFT + Const.WIDTH, 0, Const.RIGHT, Const.HEIGHT);
+
             for(Edge e : list){
                 int x = Const.LEFT + Const.WIDTH + 20;
                 int y = i*45 + 5;
@@ -66,9 +70,24 @@ public class RightPane {
                     app.panel.remove(b);
                     app.render();
                 });
-
                 i++;
             }
+        } else if(app.type == Const.ALGORITHM_RUN){
+            JComboBox<String> stepChoose = new JComboBox<>();
+            stepChoose.addItem("--Choose Step--");
+            for(Note n : app.algorithm.noteList){
+                stepChoose.addItem(n.note);
+            }
+            app.panel.add(stepChoose);
+            comp.add(stepChoose);
+            stepChoose.setLocation(Const.LEFT + Const.WIDTH + 20, 20);
+            stepChoose.setSize(Const.RIGHT - 40, 20);
+            stepChoose.addActionListener(e -> {
+                if(stepChoose.getSelectedItem().equals("--Choose Step--"))
+                    return;
+                int i = stepChoose.getSelectedIndex() - 1;
+                app.algorithm.noteList.get(i).run();
+            });
         }
     }
 }

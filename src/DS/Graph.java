@@ -1,6 +1,7 @@
 package DS;
 
 import Control.Const;
+import GUI.App;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -8,6 +9,11 @@ import java.util.ArrayList;
 public class Graph {
     public final ArrayList<Node> vertices = new ArrayList<>();
     public final ArrayList<ArrayList<Edge>> edges = new ArrayList<>();
+    private App app;
+
+    public Graph(App app){
+        this.app = app;
+    }
 
     public void addNode(int x, int y){
         vertices.add(new Node(x, y, this));
@@ -31,10 +37,11 @@ public class Graph {
     public void addEdge(Node from, Node to, int weight, Coordination start, Coordination end, boolean bi){
 
         int i = vertices.indexOf(from);
-        edges.get(i).add(new Edge(to, weight, new Coordination(start.x, start.y), new Coordination(end.x, end.y), bi));
+        Edge e = new Edge(to, weight, new Coordination(start.x, start.y), new Coordination(end.x, end.y));
+        edges.get(i).add(e);
         if(bi) {
             i = vertices.indexOf(to);
-            edges.get(i).add(new Edge(from, weight, new Coordination(end.x, end.y), new Coordination(start.x, start.y), true));
+            edges.get(i).add(new Edge(from, weight, new Coordination(end.x, end.y), new Coordination(start.x, start.y), e));
         }
     }
 
@@ -79,5 +86,25 @@ public class Graph {
                 return true;
         }
         return false;
+    }
+
+    public void reset() {
+        for (Node n : vertices)
+            n.setColor(Color.BLACK);
+
+        for (ArrayList<Edge> list : edges){
+            for(Edge edge : list){
+                edge.setColor(Color.BLACK);
+            }
+        }
+        app.render();
+    }
+
+    public Node fromWhere(Edge e){
+        for(int i = 0; i < vertices.size(); i++){
+            if(edges.get(i).contains(e))
+                return vertices.get(i);
+        }
+        return null;
     }
 }
